@@ -1,8 +1,5 @@
 FROM node:latest
-LABEL maintainer=hmajid2301@gmail.com
-LABEL version=0.1.0
-
-ENV ADB_IP 192.168.112.101
+LABEL version=0.2.0
 
 RUN mkdir /app && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -14,5 +11,4 @@ RUN mkdir /app && \
 WORKDIR /app
 COPY package.json yarn.lock app.json ./
 RUN yarn
-CMD adb connect $ADB_IP && \
-    yarn run android
+CMD yarn run start
