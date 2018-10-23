@@ -1,4 +1,4 @@
-# docker-expo-react-native
+# Expo/React-Native Android Docker container
 
 This is a docker container which can be used a base to run Expo/React Native on an android device.
 
@@ -15,10 +15,10 @@ If you have issues connecting to your android device due to network timeouts try
 
 ## Create your own dockerfile
 
-Of course this is a very barebones app so you should create your own using this as a base.
+Of course this is a very barebones docker image so you should create your own using this as a base.
 
 ```docker
-from expo_docker:latest
+FROM hmajid2301/expo_docker:latest
 
 COPY src/ assets/ package.json yarn.lock /app
 RUN yarn

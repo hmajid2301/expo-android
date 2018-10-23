@@ -1,14 +1,19 @@
-FROM node:latest
-LABEL version=0.2.0
+FROM node:10.12.0-alpine as BASE
+LABEL version=1.0.0
 
-RUN mkdir /app && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && \
-    apt-get install yarn && \
-    apt-get install android-tools-adb android-tools-fastboot
+RUN apk --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ add android-tools
 
 WORKDIR /app
 COPY package.json yarn.lock app.json ./
-RUN yarn
+RUN yarn --network-timeout 1000000
+
+FROM BASE as RELEASE
+
+EXPOSE 19000 
+EXPOSE 19001
+
+WORKDIR /app
+COPY --from=BASE /app /app
+COPY --from=BASE /usr/bin/adb /usr/bin/adb
+
 CMD yarn run start
