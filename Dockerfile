@@ -10,5 +10,5 @@ RUN mkdir /app && \
 
 WORKDIR /app
 COPY package.json yarn.lock app.json ./
-RUN yarn
+RUN yarn --network-timeout 1000000
 CMD yarn run start
